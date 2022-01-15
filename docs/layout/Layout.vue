@@ -1,10 +1,12 @@
 <template>
   <div class="layout">
-    <header class="header">Header</header>
+    <header class="header">NIUI</header>
     <div class="aside">
       <Nav />
     </div>
-    <div class="main"></div>
+    <div class="main">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
@@ -37,7 +39,7 @@ import Nav from './Nav.vue';
 
   .main {
     position: absolute;
-    left: 120px;
+    left: 200px;
     top: 60px;
     bottom: 0px;
   }
