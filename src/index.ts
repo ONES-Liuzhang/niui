@@ -1,4 +1,4 @@
-const b: Record<string, string> = { test: 'typescript' };
+const b = { test: 'typescript' };
 
 console.log(b);
 

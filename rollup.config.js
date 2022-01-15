@@ -1,3 +1,5 @@
+import { nodeResolve } from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
 import babel from '@rollup/plugin-babel';
 import { defineConfig } from 'rollup';
 
@@ -7,7 +9,7 @@ export default defineConfig({
     {
       file: 'lib/niui.common.js',
       format: 'cjs',
-      exports: 'named'
+      exports: 'auto'
     },
     {
       file: 'lib/niui.es.js',
@@ -20,6 +22,8 @@ export default defineConfig({
     }
   ],
   plugins: [
+    nodeResolve(),
+    commonjs(),
     babel({
       extensions: ['ts', 'js', 'jsx', 'tsx'],
       babelHelpers: 'bundled'
