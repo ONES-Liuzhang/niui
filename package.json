@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "lib/niui.common.js",
   "module": "lib/niui.es.js",
-  "description": "基础项目配置",
+  "description": "Vue3项目基本配置",
   "license": "MIT",
   "scripts": {
     "build": "rollup --config rollup.config.js",

@@ -5,7 +5,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import babel from '@rollup/plugin-babel';
 
 export default defineConfig({
-  root: '/examples',
+  root: '/docs',
   mode: 'development',
   server: {
     port: 5555

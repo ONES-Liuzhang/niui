@@ -13,6 +13,6 @@
     "skipLibCheck": true /* Skip type checking all .d.ts files. */,
     "moduleResolution": "node"
   },
-  "include": ["src/**/*", "examples/**/*"],
+  "include": ["src/**/*", "docs/**/*"],
   "exclude": ["node_modules", "acceptance-tests"]
 }
