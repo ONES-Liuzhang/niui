@@ -1,24 +1,28 @@
-import babel from '@rollup/plugin-babel'
-import { defineConfig } from 'rollup'
+import babel from '@rollup/plugin-babel';
+import { defineConfig } from 'rollup';
 
 export default defineConfig({
-  input: "src/index.js",
+  input: 'src/index.ts',
   output: [
     {
-      file: "lib/niui.common.js",
-      format: "cjs"
-    }, 
-    {
-      file: "lib/niui.es.js",
-      format: "esm"
+      file: 'lib/niui.common.js',
+      format: 'cjs',
+      exports: 'named'
     },
     {
-      file: "lib/niui.js",
-      format: "umd",
-      name: "Niui"
+      file: 'lib/niui.es.js',
+      format: 'esm'
+    },
+    {
+      file: 'lib/niui.js',
+      format: 'umd',
+      name: 'Niui'
     }
   ],
   plugins: [
-    babel()
+    babel({
+      extensions: ['ts', 'js', 'jsx', 'tsx'],
+      babelHelpers: 'bundled'
+    })
   ]
-})
+});

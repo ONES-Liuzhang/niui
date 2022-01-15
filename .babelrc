@@ -1,12 +1,13 @@
 {
   "presets": [
     [
-      "@babel/preset-env", 
+      "@babel/env",
       {
         "useBuiltIns": "entry",
-        "corejs": "3.6.4" 
+        "corejs": "3.6.4"
       }
-    ]
+    ],
+    "@babel/typescript"
   ],
   "exclude": ["node_modules/**"]
 }
