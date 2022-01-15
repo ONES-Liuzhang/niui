@@ -1,6 +1,8 @@
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import babel from '@rollup/plugin-babel';
+import vuePlugin from 'rollup-plugin-vue';
+
 import { defineConfig } from 'rollup';
 
 export default defineConfig({
@@ -24,6 +26,7 @@ export default defineConfig({
   plugins: [
     nodeResolve(),
     commonjs(),
+    vuePlugin(),
     babel({
       extensions: ['ts', 'js', 'jsx', 'tsx'],
       babelHelpers: 'bundled'

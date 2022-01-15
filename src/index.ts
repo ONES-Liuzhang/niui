@@ -1,7 +1,1 @@
-const b = { test: 'typescript' };
-
-console.log(b);
-
-export default {
-  a: 1
-};
+console.log('组件库入口');
