@@ -1,6 +1,12 @@
-<template>
-  <div>Home</div>
-</template>
+<script setup lang="ts">
+import { NButton } from 'niui';
+const onBtnClick = () => {
+  console.log('测试 emits');
+};
+</script>
 
-<script setup lang="ts"></script>
-<style scoped lang="scss"></style>
+<template>
+  <div>
+    <NButton @click="onBtnClick">按钮</NButton>
+  </div>
+</template>

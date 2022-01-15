@@ -11,7 +11,11 @@
     "forceConsistentCasingInFileNames": true /* Ensure that casing is correct in imports. */,
     "strict": true /* Enable all strict type-checking options. 对 this 上的属性进行严格推断 */,
     "skipLibCheck": true /* Skip type checking all .d.ts files. */,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "paths": {
+      "niui": ["src/components/index.ts"]
+    }
   },
   "include": ["src/**/*", "docs/**/*"],
   "exclude": ["node_modules", "acceptance-tests"]
