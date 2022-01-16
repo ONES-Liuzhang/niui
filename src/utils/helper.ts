@@ -1,0 +1,70 @@
+import { isPlainObject, isArray } from './share';
+export type ObjectType<T = any> = Record<string, T>;
+
+export function hasOwn(obj: ObjectType, key: string) {
+  return Object.hasOwnProperty.call(obj, key);
+}
+
+// canAccessSuper 是否读取原型链
+export function getVariable(
+  data: { [propsName: string]: any },
+  key: string,
+  canAccessSuper = true
+) {
+  if (!data || !key) {
+    return undefined;
+  } else if (canAccessSuper ? key in data : hasOwn(data, key)) {
+    return data[key];
+  }
+
+  return keyToPath(key).reduce(
+    (obj, key) =>
+      obj && typeof obj === 'object' && key in obj ? obj[key] : undefined,
+    data
+  );
+}
+
+export function setVariable(
+  data: { [propsName: string]: any },
+  key: string,
+  val: any
+) {
+  data = data || {};
+
+  if (key in data) {
+    data[key] = val;
+    return;
+  }
+
+  const parts = keyToPath(key);
+  const last = parts.pop() as string;
+
+  while (parts.length) {
+    const k = parts.shift() as string;
+    if (isPlainObject(data[k])) {
+      data = data[k] = {
+        ...data[k]
+      };
+    } else if (isArray(data[k])) {
+      data[k] = data[k].concat();
+      data = data[k];
+    } else {
+      // 强转成对象
+      data = data[k] = {};
+    }
+  }
+
+  data[last] = val;
+}
+
+/**
+ * 将例如像 a.b.c 或 a[1].b 的字符串转换为路径数组
+ *
+ * @param key 要转换的字符串
+ */
+export function keyToPath(key: string): string[] {
+  const result: string[] = [];
+
+  // TODO
+  return result;
+}

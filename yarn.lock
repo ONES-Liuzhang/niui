@@ -1697,6 +1697,21 @@
   resolved "https://registry.npmmirror.com/@vue/shared/download/@vue/shared-3.2.26.tgz#7acd1621783571b9a82eca1f041b4a0a983481d9"
   integrity sha512-vPV6Cq+NIWbH5pZu+V+2QHE9y1qfuTq49uNWw4f7FDEeZaDU2H2cx5jcUZOAKW7qTrUS4k6qZPbMy1x4N96nbA==
 
+"@vueuse/core@^6.5.3":
+  version "6.9.2"
+  resolved "https://registry.npmmirror.com/@vueuse/core/download/@vueuse/core-6.9.2.tgz#76b16d01f33cf367dd1a2d7f2e31d106443ceb8a"
+  integrity sha512-FRwl4ccSFuHZBHLGgS9TMv/+Dd6XFaL4o9nph2qtgQIV+z29RBFokw08XjHfykiENRzB01MjYHJ7iRUnsIFQXg==
+  dependencies:
+    "@vueuse/shared" "6.9.2"
+    vue-demi "*"
+
+"@vueuse/shared@6.9.2":
+  version "6.9.2"
+  resolved "https://registry.npmmirror.com/@vueuse/shared/download/@vueuse/shared-6.9.2.tgz#97e4369fa7262ebc96fe1d6e210268f30b037005"
+  integrity sha512-lAiMh6XROs0kSKVd0Yb/6GKoQMxC1fYrFDi6opvQWISPtcqRNluRrQxLUZ3WTI78ovtoKRLktjhkFAtydcfFDg==
+  dependencies:
+    vue-demi "*"
+
 JSONStream@^1.0.4:
   version "1.3.5"
   resolved "https://registry.npmmirror.com/JSONStream/download/JSONStream-1.3.5.tgz#3208c1f08d3a4d99261ab64f92302bc15e111ca0"
@@ -4058,6 +4073,24 @@ minimist@^1.2.5:
   resolved "https://registry.npm.taobao.org/minimist/download/minimist-1.2.5.tgz#67d66014b66a6a8aaa0c083c5fd58df4e4e97602"
   integrity sha1-Z9ZgFLZqaoqqDAg8X9WN9OTpdgI=
 
+mobx-state-tree@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.npmmirror.com/mobx-state-tree/download/mobx-state-tree-5.1.0.tgz#f2d8d32aa8743c2f52e57bd1c15d92395ac50cdb"
+  integrity sha512-tsKAV2OK4DisP2/SOK8K6d5dnelTR1E0pIHVWqjVxxyZgcCanFIA3GNvcN7k4sjppVmq26d0LEYjiD7AvthOAw==
+
+mobx-vue-lite@^0.2.7:
+  version "0.2.7"
+  resolved "https://registry.npmmirror.com/mobx-vue-lite/download/mobx-vue-lite-0.2.7.tgz#409fde1efb6395364b5e6770a4ae6e1295f03db0"
+  integrity sha1-QJ/eHvtjlTZLXmdwpK5uEpXwPbA=
+  dependencies:
+    "@vueuse/core" "^6.5.3"
+    mobx "^6.3.2"
+
+mobx@^6.3.12, mobx@^6.3.2:
+  version "6.3.12"
+  resolved "https://registry.npmmirror.com/mobx/download/mobx-6.3.12.tgz#2ceb4f632081a8bf8757ba7e5e01b5810800022f"
+  integrity sha512-5Hx2IjhBtySVQlSFe+sHczKgOQ+cCyi8hN2wEvWzpJEEMRflQoDzDwJJ+m7SBWBQhfrWMWb1RGZNk4X1XtxJkQ==
+
 ms@2.1.2:
   version "2.1.2"
   resolved "https://registry.npmmirror.com/ms/download/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"
@@ -5138,6 +5171,11 @@ vite@^2.7.12:
     rollup "^2.59.0"
   optionalDependencies:
     fsevents "~2.3.2"
+
+vue-demi@*:
+  version "0.12.1"
+  resolved "https://registry.npmmirror.com/vue-demi/download/vue-demi-0.12.1.tgz#f7e18efbecffd11ab069d1472d7a06e319b4174c"
+  integrity sha1-9+GO++z/0RqwadFHLXoG4xm0F0w=
 
 vue-eslint-parser@^8.0.1:
   version "8.0.1"

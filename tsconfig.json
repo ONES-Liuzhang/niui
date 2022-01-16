@@ -12,6 +12,7 @@
     "strict": true /* Enable all strict type-checking options. 对 this 上的属性进行严格推断 */,
     "skipLibCheck": true /* Skip type checking all .d.ts files. */,
     "moduleResolution": "node",
+    "experimentalDecorators": true, // 允许装饰器
     "baseUrl": ".",
     "paths": {
       "niui": ["src/components/index.ts"]
