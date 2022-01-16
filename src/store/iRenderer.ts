@@ -1,4 +1,4 @@
-import { ObjectType } from './../utils/helper';
+import { PlainObject } from '../types';
 import { Instance, SnapshotIn, types } from 'mobx-state-tree';
 import { getVariable } from 'src/utils/helper';
 
@@ -72,7 +72,7 @@ export const iRendererStore = StoreNode.named('iRendererStore')
         value: any,
         changePristine?: boolean,
         force?: boolean,
-        otherModifier?: (data: ObjectType) => void
+        otherModifier?: (data: PlainObject) => void
       ) {
         // TODO
         console.log(

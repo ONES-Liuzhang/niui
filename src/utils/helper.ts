@@ -1,7 +1,7 @@
+import { PlainObject } from './../types';
 import { isPlainObject, isArray } from './share';
-export type ObjectType<T = any> = Record<string, T>;
 
-export function hasOwn(obj: ObjectType, key: string) {
+export function hasOwn(obj: PlainObject, key: string) {
   return Object.hasOwnProperty.call(obj, key);
 }
 
