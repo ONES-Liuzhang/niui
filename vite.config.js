@@ -1,8 +1,7 @@
 import { defineConfig } from 'vite';
-import { nodeResolve } from '@rollup/plugin-node-resolve';
-import babel from '@rollup/plugin-babel';
 import { resolve } from 'path';
 import vueJsx from '@vitejs/plugin-vue-jsx';
+import vue from '@vitejs/plugin-vue';
 
 export default defineConfig({
   root: 'docs',
@@ -18,25 +17,7 @@ export default defineConfig({
   css: {
     sass: {}
   },
-  plugins: [
-    nodeResolve({
-      extensions: ['.ts', '.tsx', '.js', '.jsx']
-    }),
-    babel({
-      babelrc: false,
-      presets: [
-        [
-          '@babel/env',
-          {
-            useBuiltIns: 'entry',
-            corejs: '3.6.4'
-          }
-        ]
-      ],
-      exclude: ['node_modules/**']
-    }),
-    vueJsx()
-  ],
+  plugins: [vue(), vueJsx()],
   define: {
     __VUE_OPTIONS_API__: true,
     __VUE_PROD_DEVTOOLS__: false
