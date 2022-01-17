@@ -42,6 +42,7 @@ import Nav from './Nav.vue';
     left: 200px;
     top: 60px;
     bottom: 0px;
+    right: 0px;
   }
 }
 </style>

@@ -6,8 +6,17 @@
         "useBuiltIns": "entry",
         "corejs": "3.6.4"
       }
-    ],
-    "@babel/typescript"
+    ]
+  ],
+  "plugins": [
+    "@vue/babel-plugin-jsx",
+    [
+      "@babel/transform-typescript",
+      {
+        "isTSX": true,
+        "allowExtensions": true
+      }
+    ]
   ],
   "exclude": ["node_modules/**"]
 }
