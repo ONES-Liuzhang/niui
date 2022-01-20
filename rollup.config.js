@@ -23,11 +23,11 @@ export default defineConfig({
   ],
   plugins: [
     nodeResolve({
-      extensions: ['.ts', '.tsx', '.js', '.jsx', '.vue']
+      extensions: ['.ts', '.tsx', '.js', '.jsx']
     }),
     vuePlugin(),
     babel({
-      extensions: ['.ts', '.tsx', '.js', '.jsx', 'vue'],
+      extensions: ['.ts', '.tsx', '.js', '.jsx'],
       babelHelpers: 'bundled'
     })
   ]

@@ -1,86 +1,50 @@
 import { isArray } from './utils/share';
-import { RendererEnv } from './env';
-import { RendererProps } from './factory';
-import { Schema, SchemaNode } from './types';
-import SchemaRenderer from './SchemaRenderer';
-import Vue, { defineComponent, h, provide } from 'vue';
+import { SchemaNode } from './Schema';
+import { RootProps } from './propsType';
+import { RendererProps } from './types';
 import RootRenderer from './RootRenderer';
+import SchemaRenderer from './SchemaRenderer';
 
-export interface RootProps {
-  schema: Schema;
-  rootStore: any;
-  env: any;
-  theme: string;
-  pathPrefix?: string;
-  [propsName: string]: any;
-}
+type VueJSXElement = JSX.Element | null | undefined | Array<VueJSXElement>;
 
-export interface RootRendererProps {
-  schema: Schema;
-  rootStore: any;
-  env: any;
-  theme: string;
-  pathPrefix?: string;
-  [propsName: string]: any;
-}
+type RenderChildProps = Omit<RendererProps, '$path' | '$schema'>;
 
-// TODO ?
-export interface renderChildProps extends Partial<RendererProps> {
-  env: RendererEnv;
-}
+const Root = function Root(props: RootProps) {
+  // 数据处理
+  return <RootRenderer {...props} />;
+};
 
-export type VueJSXElement = Vue.Component | JSX.Element | null | false;
-
-const Root = defineComponent<RootProps>({
-  setup(props) {
-    provide('rootStore', props.rootStore);
-    return () => <RootRenderer {...{ props }} />;
-  }
-});
-
-export function renderChildren(
-  prefix: string,
-  children: SchemaNode,
-  props: renderChildProps
+function renderChildren(
+  pathPrefix: string,
+  node: SchemaNode,
+  props: RenderChildProps
 ): VueJSXElement {
-  // TODO
-  if (isArray(children)) {
-    return children.map((child, idx) =>
-      renderChild(`${prefix}/${idx}`, child, {
-        key: `${props.key ? `${props.key}-` : ''}${idx}`,
+  if (isArray(node)) {
+    return node.map((child, index) =>
+      renderChild(`${pathPrefix}/${index}`, child, {
+        key: `${pathPrefix}_${index}`,
         ...props
       })
     );
   }
 
-  return renderChild(prefix, children, props);
+  return renderChild(pathPrefix, node, props);
 }
 
 export function renderChild(
-  prefix: string,
+  pathPrefix: string,
   node: SchemaNode,
-  props: renderChildProps
+  props: RenderChildProps
 ): VueJSXElement {
-  // TODO
+  if (!node) return null;
+
   if (isArray(node)) {
-    return renderChildren(prefix, node, props);
+    return renderChildren(pathPrefix, node, props);
   }
 
-  const typeofnode = typeof node;
+  const path = pathPrefix ? '/' + node.type : `${pathPrefix}/${node.type}`;
 
-  if (node === null || typeofnode === 'undefined') {
-    return null;
-  }
-
-  const schema = node as Schema;
-
-  return (
-    <SchemaRenderer
-      {...{ props }}
-      $path={`${prefix ? `${prefix}/` : ''}` + `${schema && schema.type}`}
-      schema={schema}
-    />
-  );
+  return <SchemaRenderer $path={path} $schema={node} {...props} />;
 }
 
 export default Root;

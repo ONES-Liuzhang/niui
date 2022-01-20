@@ -1,3 +1,3 @@
-import NButton from './Button.vue';
+import NButton from './Button';
 
 export { NButton };

@@ -2,7 +2,7 @@
 import { Observer } from 'mobx-vue-lite';
 import { CounterStore } from '../src/store/demo';
 import { NButton } from 'niui';
-import Root from '../src/Root';
+import { Root } from '../src';
 
 const state = new CounterStore();
 
@@ -10,7 +10,16 @@ const onBtnClick = () => {
   console.log('测试 emits');
 };
 
-const schema = { a: 1 };
+const schema = {
+  type: 'page',
+  title: '测试页面',
+  body: [
+    {
+      type: 'button',
+      body: '点我'
+    }
+  ]
+};
 </script>
 
 <template>
@@ -23,6 +32,6 @@ const schema = { a: 1 };
       </div>
     </div>
     <NButton @click="onBtnClick">按钮</NButton>
+    <Root :schema="schema" />
   </Observer>
-  <Root :schema="schema" />
 </template>

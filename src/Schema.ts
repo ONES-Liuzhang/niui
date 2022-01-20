@@ -93,3 +93,13 @@ export interface SchemaApiObject {
 }
 
 export type SchemaApi = string | SchemaApiObject;
+
+export interface Schema {
+  type: string;
+  body?: SchemaNode;
+  visibleOn?: SchemaExpression;
+  disableOn?: SchemaExpression;
+  [propsName: string]: any;
+}
+
+export type SchemaNode = Schema | string | Array<Schema | string>;

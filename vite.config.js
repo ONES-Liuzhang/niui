@@ -12,14 +12,10 @@ export default defineConfig({
     alias: {
       niui: resolve(__dirname, 'src/components/index.ts')
     },
-    extensions: ['.ts', '.tsx', '.js', '.jsx', '.vue']
+    extensions: ['.ts', '.tsx', '.js', '.jsx']
   },
   css: {
     sass: {}
   },
-  plugins: [vue(), vueJsx()],
-  define: {
-    __VUE_OPTIONS_API__: true,
-    __VUE_PROD_DEVTOOLS__: false
-  }
+  plugins: [vueJsx(), vue()]
 });

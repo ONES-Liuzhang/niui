@@ -18,3 +18,7 @@ esm
 
 # Test
 coverage
+
+# 忽略的文件
+__.*
+*__

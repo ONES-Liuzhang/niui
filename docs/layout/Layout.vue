@@ -2,7 +2,7 @@
   <div class="layout">
     <header class="header">NIUI</header>
     <div class="aside">
-      <Nav />
+      <Nav b="Layout" />
     </div>
     <div class="main">
       <router-view></router-view>

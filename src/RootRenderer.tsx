@@ -1,11 +1,22 @@
-import { defineComponent } from 'vue';
-import { RootRendererProps } from './Root';
+import { RootRenderProps } from './propsType';
+import { renderChild } from './Root';
 
-const RootRenderer = defineComponent<RootRendererProps>({
-  setup(props) {
-    console.log(props);
-    return () => props.schema;
+const RootRenderer = function RootRenderer() {
+  function handleDialogConfirm() {
+    console.log('弹窗确认');
   }
-});
 
-export default RootRenderer;
+  function handleDialogCancel() {
+    console.log('弹窗关闭');
+  }
+
+  return (props: RootRenderProps) => {
+    const { pathPrefix, schema, ...rest } = props;
+
+    return (
+      <div>{renderChild(pathPrefix ? pathPrefix : '/', schema, rest)}</div>
+    );
+  };
+};
+
+export default RootRenderer();
