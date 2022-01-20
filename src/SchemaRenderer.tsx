@@ -1,20 +1,37 @@
 import { resolveRender } from './factory';
 import { RendererProps } from './types';
 import { renderChild } from './Root';
+import { SchemaNode, Schema } from './Schema';
 
-function SchemaRenderer(props: RendererProps) {
-  const { $schema, $path, ...rest } = props;
-  const renderer = resolveRender($path, $schema);
+interface SchemaRenderer extends Partial<RendererProps> {
+  $path: string;
+  schema: SchemaNode;
+}
 
+function SchemaRenderer(props: SchemaRenderer) {
+  const { schema, $path, ...restProps } = props;
+  const renderer = resolveRender($path, schema);
+  const { data: defaultData, ...restSchema } = schema as Schema;
   if (renderer && renderer.component) {
     const Component = renderer.component;
     return (
-      <Component $schema={$schema} $path={$path} render={renderChild} {...rest}>
-        SchemaRenderer
-      </Component>
+      <Component
+        {...restProps}
+        {...restSchema}
+        $path={$path}
+        render={renderChild}
+        defaultData={defaultData}
+      ></Component>
     );
   } else {
-    return <div>renderer {$path} no fund</div>;
+    return (
+      <div>
+        <p>未找到指定的渲染器</p>
+        <p>
+          路径: {$path} 配置：<code>{JSON.stringify(schema)}</code>
+        </p>
+      </div>
+    );
   }
 }
 

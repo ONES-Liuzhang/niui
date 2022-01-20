@@ -1,3 +1,5 @@
+type SchemaType = 'page' | 'action' | 'button';
+
 type SchemaUrlPath = string;
 
 type SchemaExpression = string;
@@ -94,11 +96,26 @@ export interface SchemaApiObject {
 
 export type SchemaApi = string | SchemaApiObject;
 
+/** schema 通用属性 */
 export interface Schema {
   type: string;
-  body?: SchemaNode;
+
+  visible?: boolean;
+
   visibleOn?: SchemaExpression;
+
+  disable?: boolean;
+
   disableOn?: SchemaExpression;
+
+  data?: any;
+
+  body?: SchemaNode;
+  /**
+   * 传递的类名
+   */
+  className?: string;
+
   [propsName: string]: any;
 }
 

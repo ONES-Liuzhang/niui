@@ -16,7 +16,9 @@ const schema = {
   body: [
     {
       type: 'button',
-      body: '点我'
+      label: '点我',
+      actionType: 'link',
+      link: '#aaaa'
     }
   ]
 };
@@ -32,6 +34,6 @@ const schema = {
       </div>
     </div>
     <NButton @click="onBtnClick">按钮</NButton>
-    <Root :schema="schema" />
+    <Root :rootStore="state" :schema="schema" />
   </Observer>
 </template>

@@ -1,4 +1,4 @@
-import { isArray } from './utils/share';
+import { isArray, isString } from './utils/share';
 import { SchemaNode } from './Schema';
 import { RootProps } from './propsType';
 import { RendererProps } from './types';
@@ -42,9 +42,13 @@ export function renderChild(
     return renderChildren(pathPrefix, node, props);
   }
 
+  if (isString(node)) {
+    return <span>{node}</span>;
+  }
+
   const path = pathPrefix ? '/' + node.type : `${pathPrefix}/${node.type}`;
 
-  return <SchemaRenderer $path={path} $schema={node} {...props} />;
+  return <SchemaRenderer $path={path} schema={node} {...props} />;
 }
 
 export default Root;
