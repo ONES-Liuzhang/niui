@@ -1,7 +1,7 @@
 import { Renderer } from '../factory';
 import { ExtractPropTypes, PropType } from 'vue';
 import { NButton } from '../components';
-import { SchemaApi, Schema } from '../Schema';
+import { SchemaApi, Schema, SchemaNode } from '../Schema';
 import { PlainObject, RendererProps } from '../types';
 
 // export const ActionProps = {
@@ -23,6 +23,11 @@ import { PlainObject, RendererProps } from '../types';
 export interface ButtonSchema extends Schema {
   type: 'button';
 
+  /**
+   * 是否内联 默认为false
+   */
+  block?: boolean;
+
   label: string;
 
   level?: 'primary' | 'common' | 'danger' | 'text';
@@ -32,7 +37,14 @@ export interface ButtonSchema extends Schema {
   icon?: string;
 
   /** 按钮行为 */
-  actionType?: 'link' | 'url' | 'ajax' | 'submit' | 'reset' | 'clear';
+  actionType?:
+    | 'link'
+    | 'url'
+    | 'ajax'
+    | 'submit'
+    | 'reset'
+    | 'clear'
+    | 'dialog';
 
   disabled?: boolean;
 
@@ -80,25 +92,53 @@ export interface AjaxButtonSchema extends ButtonSchema {
   api: SchemaApi;
 }
 
+export interface DialogButtonSchema extends ButtonSchema {
+  actionType: 'dialog';
+
+  // TODO: 这里要写 DialogSchemaNode
+  dialog: SchemaNode;
+}
+
 // 在这里添加 Action
 export type ActionSchema =
   | LinkButtonSchema
   | UrlButtonSchema
-  | AjaxButtonSchema;
+  | AjaxButtonSchema
+  | DialogButtonSchema;
 
 // type ActionProps = ExtractPropTypes<typeof ActionProps>;
 
-/** action 渲染器 */
+/**
+ * action 渲染器
+ *
+ * Button 只负责渲染样式，交互逻辑放在 Action 里，包一层
+ */
 const ActionRenderer = function ActionRenderer(
-  props: RendererProps & ActionSchema
+  props: RendererProps &
+    ActionSchema & {
+      onAction: (e: MouseEvent, action?: PlainObject, data?: any) => void;
+      onClick: (e: MouseEvent) => void;
+    }
 ) {
-  const onClick = () => {
-    if (props.actionType === 'link') {
-      window.location.href = props.link;
+  const handleClick = (e: MouseEvent) => {
+    // 传入了 click，就执行
+    if (props.onClick) {
+      props.onClick(e);
+    }
+
+    // 再解析 action 执行
+    if (props.onAction) {
+      props.onAction(e, props.action, props.data);
     }
   };
 
-  return <NButton onClick={onClick} label={props.label} />;
+  return (
+    <NButton
+      onClick={handleClick}
+      label={props.label}
+      disabled={props.disabled}
+    />
+  );
 };
 
 export default Renderer({ type: 'button' })(ActionRenderer);

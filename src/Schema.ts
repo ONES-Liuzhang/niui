@@ -1,4 +1,5 @@
-type SchemaType = 'page' | 'action' | 'button';
+/** 注册的渲染器 type */
+export type SchemaType = 'page' | 'button' | 'input' | 'action';
 
 type SchemaUrlPath = string;
 
@@ -110,7 +111,6 @@ export interface Schema {
 
   data?: any;
 
-  body?: SchemaNode;
   /**
    * 传递的类名
    */

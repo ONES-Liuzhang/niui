@@ -2,9 +2,9 @@
 import { Observer } from 'mobx-vue-lite';
 import { CounterStore } from '../src/store/demo';
 import { NButton } from 'niui';
-import { Root } from '../src';
+import { render } from '../src';
 
-const state = new CounterStore();
+const state = CounterStore.create();
 
 const onBtnClick = () => {
   console.log('测试 emits');
@@ -16,11 +16,21 @@ const schema = {
   body: [
     {
       type: 'button',
-      label: '点我',
+      label: 'dialog',
+      actionType: 'dialog'
+    },
+    {
+      type: 'button',
+      label: 'link',
       actionType: 'link',
-      link: '#aaaa'
+      link: '#home'
     }
   ]
+};
+
+const rootData = {
+  userName: 'lz',
+  age: 28
 };
 </script>
 
@@ -33,7 +43,11 @@ const schema = {
         <button @click="state.increment">+</button>
       </div>
     </div>
-    <NButton @click="onBtnClick">按钮</NButton>
-    <Root :rootStore="state" :schema="schema" />
+    <NButton @click="onBtnClick" label="按钮"></NButton>
+    {{
+      render(schema, {
+        data: rootData
+      })
+    }}
   </Observer>
 </template>

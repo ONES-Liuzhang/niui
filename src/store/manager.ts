@@ -1,55 +1,39 @@
 import { isAlive } from 'mobx-state-tree';
-import { IIRendererStore } from './iRenderer';
 import { IStoreNode } from './node';
 
 const stores: {
-  [propName: string]: IStoreNode;
+  [id: string]: IStoreNode;
 } = {};
 
-export function addStore(store: IStoreNode) {
-  if (stores[store.id]) {
-    return stores[store.id];
-  }
+export function getStoreById(id: string): IStoreNode | undefined {
+  return stores[id];
+}
 
+// 增加
+export function addStore(store: IStoreNode): IStoreNode {
   stores[store.id] = store;
 
-  // drawer dialog 不加进去，否则有些容器就不会自我销毁 store 了。
-  if (store.parentId && !/(?:dialog|drawer)$/.test(store.path)) {
-    const parent = stores[store.parentId] as IIRendererStore;
-    parent.addChildId(store.id);
-  }
-
-  cleanUp();
   return store;
 }
 
-const toDelete: Array<string> = [];
+const isDelete: string[] = [];
 
+// 删除某个节点 - dispose 成功后要同步删除 stores 里缓存的节点
+// 但是 dispose 不一定立马会删除节点，所以需要保存起来，一旦成功删除一个节点，就要遍历一下 stores ，清除节点
 export function removeStore(store: IStoreNode) {
-  const id = store.id;
-  toDelete.push(id);
+  isDelete.push(store.id);
   store.dispose(cleanUp);
 }
 
 function cleanUp() {
-  let index = toDelete.length - 1;
-  while (index >= 0) {
-    const id = toDelete[index];
-    const store = stores[id];
+  let i = isDelete.length - 1;
 
-    if (store && !isAlive(store)) {
+  while (i >= 0) {
+    const id = isDelete[i];
+    if (stores[id] && !isAlive(stores[id])) {
+      isDelete.splice(i, 1);
       delete stores[id];
-      toDelete.splice(index, 1);
-    } else {
-      index--;
     }
+    i--;
   }
-}
-
-export function getStoreById(id: string) {
-  return stores[id];
-}
-
-export function getStores() {
-  return stores;
 }

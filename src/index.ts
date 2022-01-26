@@ -7,3 +7,4 @@ import SchemaRenderer from './SchemaRenderer';
 console.log('组件库入口');
 
 export { Root, SchemaRenderer, NPage, NButton };
+export { render } from './factory';

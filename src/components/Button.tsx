@@ -1,7 +1,11 @@
 import { defineComponent, ExtractPropTypes, PropType } from 'vue';
 
-const ButtonProps = {
+const buttonProps = {
   label: String,
+  block: {
+    type: Boolean,
+    default: false
+  },
   level: {
     type: String as PropType<'primary' | 'common' | 'danger' | 'text'>,
     default: 'primary'
@@ -17,24 +21,22 @@ const ButtonProps = {
   onClick: Function as PropType<(e: MouseEvent) => void>
 } as const;
 
-type ButtonProps = ExtractPropTypes<typeof ButtonProps>;
+export type ButtonProps = ExtractPropTypes<typeof buttonProps>;
 
 const Button = defineComponent({
   name: 'NButton',
-  props: { ...ButtonProps },
-  setup(props, ctx) {
+  props: buttonProps,
+  setup(props) {
     const { level, size, label, onClick } = props;
-
-    // btnCls
-    let btnCls = 'n-btn';
-    btnCls = `${btnCls} n-btn--${level} n-btn--${size}`;
 
     return () => {
       return (
         <button
           onClick={onClick}
           class={{
-            'n-btn': true
+            'n-btn': true,
+            [`n-btn--${size}`]: size,
+            [`n-btn--${level}`]: level
           }}
         >
           {label}
@@ -43,16 +45,5 @@ const Button = defineComponent({
     };
   }
 });
-
-// const ButtonRenderer = function ButtonRenderer(
-//   props: ButtonSchema & RendererProps
-// ) {
-//   const renderChild = props.render;
-//   const { variant } = props;
-
-//   return (
-//     <Button variant={variant}>{body && renderChild(props.$path, body)}</Button>
-//   );
-// };
 
 export default Button;

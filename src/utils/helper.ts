@@ -89,3 +89,7 @@ export function keyToPath(string: string): string[] {
 
   return result;
 }
+
+export function guid() {
+  return Math.floor(Math.random() * 1000) + '';
+}

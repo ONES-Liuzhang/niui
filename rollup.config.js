@@ -1,7 +1,7 @@
+import { defineConfig } from 'rollup';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import babel from '@rollup/plugin-babel';
 import vuePlugin from 'rollup-plugin-vue';
-import { defineConfig } from 'rollup';
 
 export default defineConfig({
   input: 'src/index.ts',

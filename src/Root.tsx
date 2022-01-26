@@ -1,13 +1,12 @@
 import { isArray, isString } from './utils/share';
 import { SchemaNode } from './Schema';
-import { RootProps } from './propsType';
-import { RendererProps } from './types';
+import { RootProps, RendererProps } from './types';
 import RootRenderer from './RootRenderer';
 import SchemaRenderer from './SchemaRenderer';
 
 type VueJSXElement = JSX.Element | null | undefined | Array<VueJSXElement>;
 
-type RenderChildProps = Omit<RendererProps, '$path' | '$schema'>;
+export type RenderChildProps = Partial<RendererProps>;
 
 const Root = function Root(props: RootProps) {
   // 数据处理
@@ -46,7 +45,10 @@ export function renderChild(
     return <span>{node}</span>;
   }
 
-  const path = pathPrefix ? '/' + node.type : `${pathPrefix}/${node.type}`;
+  const path =
+    pathPrefix && pathPrefix !== '/'
+      ? `${pathPrefix}/${node.type}`
+      : '/' + node.type;
 
   return <SchemaRenderer $path={path} schema={node} {...props} />;
 }

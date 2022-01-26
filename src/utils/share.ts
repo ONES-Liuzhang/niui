@@ -1,3 +1,4 @@
+import { hasOwn } from './helper';
 import { PlainObject } from '../types';
 
 const _toString = Object.prototype.toString;
@@ -83,4 +84,22 @@ export function findIndex<T = any>(
     }
   }
   return funded;
+}
+
+/**
+ *
+ * @param obj 对象
+ * @param omitKeys 要剔除的 keys
+ * @returns 新对象
+ */
+export function omit(obj: PlainObject, omitKeys: Array<string>) {
+  const result = { ...obj };
+
+  for (const key in result) {
+    if (hasOwn(result, key) && ~omitKeys.indexOf(key)) {
+      delete result[key];
+    }
+  }
+
+  return result;
 }
