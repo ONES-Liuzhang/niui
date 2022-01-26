@@ -4,7 +4,7 @@ import { RendererStore, IRendererStore } from './store';
 import { guid } from './utils/helper';
 
 const RootRenderer = function RootRenderer(props: RootRenderProps) {
-  const { pathPrefix, schema, rootStore, data, ...rest } = props;
+  const { pathPrefix = '/', schema, rootStore, data, ...rest } = props;
 
   const store = rootStore!.addStore({
     id: guid(),
@@ -25,9 +25,27 @@ const RootRenderer = function RootRenderer(props: RootRenderProps) {
     console.log('弹窗关闭');
   }
 
+  function handleAction(action: string) {
+    console.log('action ', action);
+  }
+
   return (
     <div>
-      {renderChild(pathPrefix ? pathPrefix : '/', schema, { ...rest, store })}
+      {renderChild(pathPrefix, schema, { ...rest, store })}
+
+      {renderChild(
+        pathPrefix,
+        {
+          type: 'dialog'
+        },
+        {
+          data: store.dialogData,
+          onConfirm: handleDialogConfirm,
+          onCancel: handleDialogCancel,
+          show: store.dialogOpen,
+          onAction: handleAction
+        }
+      )}
     </div>
   );
 };

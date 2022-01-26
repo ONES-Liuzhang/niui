@@ -1,6 +1,6 @@
 import { createApp } from 'vue';
 import AppVue from './App.vue';
 import global from './global';
-import '../scss/base/_normalize.scss';
+import './style/index.css';
 
 createApp(AppVue).use(global).mount('#app');

@@ -1,8 +1,8 @@
 import { Renderer } from '../factory';
-import { ExtractPropTypes, PropType } from 'vue';
 import { NButton } from '../components';
 import { SchemaApi, Schema, SchemaNode } from '../Schema';
 import { PlainObject, RendererProps } from '../types';
+import { normalizeApi } from '../utils/api';
 
 // export const ActionProps = {
 //   /** 按钮行为 */
@@ -112,6 +112,8 @@ export type ActionSchema =
  * action 渲染器
  *
  * Button 只负责渲染样式，交互逻辑放在 Action 里，包一层
+ *
+ * 受控组件
  */
 const ActionRenderer = function ActionRenderer(
   props: RendererProps &
@@ -120,6 +122,25 @@ const ActionRenderer = function ActionRenderer(
       onClick: (e: MouseEvent) => void;
     }
 ) {
+  const env = props.env;
+
+  switch (props.actionType) {
+    case 'ajax':
+      // 发请求
+      env?.fetcher(normalizeApi(props.api));
+      break;
+    case 'dialog':
+      // 弹窗
+      break;
+    case 'link':
+      // 跳转
+      env?.jumpTo(props.link);
+      break;
+    case 'url':
+      // 和 link 类似 支持新开标签
+      env?.jumpTo(props.url);
+      break;
+  }
   const handleClick = (e: MouseEvent) => {
     // 传入了 click，就执行
     if (props.onClick) {

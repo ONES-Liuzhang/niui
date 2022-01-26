@@ -2,6 +2,7 @@ import { defineComponent, PropType, ExtractPropTypes } from 'vue';
 import { Renderer } from '../factory';
 import { RendererProps } from '../types';
 import { SchemaApi, SchemaNode } from '../Schema';
+import { normalizeApi } from '../utils/api';
 
 const pageSchema = {
   /**
@@ -46,7 +47,12 @@ const Page = defineComponent({
 });
 
 const PageRenderer = function PageRenderer(props: PageSchema & RendererProps) {
-  const { body, $path, render, store, initFetch, ...restProps } = props;
+  const { body, $path: _, render, initFetch, ...restProps } = props;
+
+  // 初始化页面数据
+  if (initFetch) {
+    props.env?.fetcher(normalizeApi(initFetch));
+  }
 
   // 页面级别的事件代理，处理 a 标签跳转
   const handleClick = (e: MouseEvent) => {
@@ -66,7 +72,7 @@ const PageRenderer = function PageRenderer(props: PageSchema & RendererProps) {
 
   return (
     <Page onClick={handleClick} {...restProps}>
-      {body ? render('body', body, { store: props.store }) : null}
+      {body ? render('body', body) : null}
     </Page>
   );
 };
