@@ -5,6 +5,7 @@ interface IFetcherConfig {
   method?: 'get' | 'post';
   data?: any;
   headers?: any;
+  timeout?: number;
 }
 
 interface IBaseConfig {
@@ -24,7 +25,8 @@ const defaultConfig = {
   headers: {
     'Content-Type': 'application/json'
   },
-  credentials: 'same-origin'
+  credentials: 'same-origin',
+  timeout: 3000
 };
 
 // 封装一个简易的 fetcher 来做一下接口测试即可
@@ -44,21 +46,40 @@ class Fetcher {
 
   // request({ method: "get", url: "xxx" })
   request(config: IFetcherConfig) {
-    const url = normailzePath(this.baseURL, config.url);
+    return new Promise((resolve, reject) => {
+      const url = normailzePath(this.baseURL, config.url);
 
-    const options: any = {
-      headers: {
-        ...this.config.headers,
-        ...config.headers
-      },
-      method: config.method || 'get'
-    };
+      const options: any = {
+        headers: {
+          ...this.config.headers,
+          ...config.headers
+        },
+        method: config.method || 'get'
+      };
 
-    if (config.method && config.method.toUpperCase() === 'POST') {
-      options.body = JSON.stringify(config.data);
-    }
+      if (config.method && config.method.toUpperCase() === 'POST') {
+        options.body = JSON.stringify(config.data);
+      }
 
-    return fetch(url, options);
+      // TODO: 中止请求，通过 AbortController/AbortSignal
+      fetch(url, options).then(response => {
+        // 请求成功
+        if (response.status === 200 && response.statusText === 'OK') {
+          console.log(response);
+          resolve(response.json());
+        }
+      });
+
+      if (config.timeout && config.timeout > 0) {
+        setTimeout(() => {
+          reject({
+            ok: false,
+            message: 'Network Error！timeout ' + config.timeout,
+            data: null
+          });
+        }, config.timeout);
+      }
+    });
   }
 }
 

@@ -8,12 +8,15 @@
   "scripts": {
     "build": "rollup --config rollup.config.js",
     "dev": "vite --config vite.config.js serve --host",
+    "server": "node server/app.js",
     "test": "jest",
     "coverage": "jest --coverage",
     "prepare": "husky install"
   },
   "dependencies": {
+    "@koa/cors": "^3.1.0",
     "axios": "^0.24.0",
+    "koa": "^2.13.4",
     "mobx": "^6.3.12",
     "mobx-state-tree": "^5.1.0",
     "mobx-vue-lite": "^0.2.7",

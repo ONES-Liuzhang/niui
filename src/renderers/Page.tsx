@@ -51,7 +51,12 @@ const PageRenderer = function PageRenderer(props: PageSchema & RendererProps) {
 
   // 初始化页面数据
   if (initFetch) {
-    props.env?.fetcher(normalizeApi(initFetch));
+    props.env?.fetcher(normalizeApi(initFetch)).then((response: any) => {
+      // response.text().then(data => {
+      //   console.log(data);
+      // });
+      console.log(response);
+    });
   }
 
   // 页面级别的事件代理，处理 a 标签跳转
