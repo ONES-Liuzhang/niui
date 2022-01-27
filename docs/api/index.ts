@@ -7,4 +7,20 @@ const instance = fetcher.create({
   }
 });
 
+instance.intercepter.response.use(
+  async (response: Response) => {
+    const json = await response.json();
+
+    return {
+      status: response.status,
+      ok: response.ok,
+      data: json,
+      message: json.message
+    };
+  },
+  (err: any) => {
+    console.error('网络错误：', err);
+  }
+);
+
 export default instance;

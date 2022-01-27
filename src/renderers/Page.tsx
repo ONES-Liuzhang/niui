@@ -51,11 +51,8 @@ const PageRenderer = function PageRenderer(props: PageSchema & RendererProps) {
 
   // 初始化页面数据
   if (initFetch) {
-    props.env?.fetcher(normalizeApi(initFetch)).then((response: any) => {
-      // response.text().then(data => {
-      //   console.log(data);
-      // });
-      console.log(response);
+    props.env?.fetcher(normalizeApi(initFetch)).then(res => {
+      console.log(res);
     });
   }
 

@@ -24,10 +24,10 @@ app.use(async (ctx, next) => {
 app.use(async (ctx, next) => {
   switch (ctx.url) {
     case '/dict':
+      // fetch response.body => ctx.body
       ctx.body = {
-        code: 200,
-        data: 'Hello Niui',
-        ok: true
+        code: '2222',
+        data: 'Hello Niui'
       };
       break;
   }

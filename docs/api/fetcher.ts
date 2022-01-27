@@ -1,4 +1,5 @@
-import { normailzePath } from './utils';
+import { extend, normailzePath } from './utils';
+import { IIntercepter, Intercepter, Handler } from './intercepter';
 
 interface IFetcherConfig {
   url: string;
@@ -13,12 +14,12 @@ interface IBaseConfig {
   headers?: any;
 }
 
-interface Payload {
-  ok: boolean;
-  data: any;
-  message: string;
-  code: number;
-}
+// interface Payload {
+//   code: number;
+//   ok: boolean;
+//   data: any;
+//   message?: string;
+// }
 
 const defaultConfig = {
   baseURL: '',
@@ -33,19 +34,43 @@ const defaultConfig = {
 class Fetcher {
   config: IBaseConfig;
   baseURL: string;
-  intercepters: { request: Array<any>; response: Array<any> };
+  intercepter: { request: IIntercepter; response: IIntercepter };
+  chain: Array<any>;
 
   constructor(config: IBaseConfig) {
     this.config = config;
     this.baseURL = config.baseURL!;
-    this.intercepters = {
-      request: [],
-      response: []
+    this.chain = [];
+    this.intercepter = {
+      request: new Intercepter(),
+      response: new Intercepter()
     };
+
+    this.dispatchRequest = this.dispatchRequest.bind(this);
   }
 
   // request({ method: "get", url: "xxx" })
   request(config: IFetcherConfig) {
+    this.chain = [this.dispatchRequest, undefined];
+
+    let promise = Promise.resolve(config);
+
+    this.intercepter.request.list.forEach((handler: Handler) => {
+      this.chain.unshift(handler.fulfilled, handler.reason);
+    });
+
+    this.intercepter.response.list.forEach((handler: Handler) => {
+      this.chain.push(handler.fulfilled, handler.reason);
+    });
+
+    while (this.chain.length) {
+      promise = promise.then(this.chain.shift(), this.chain.shift());
+    }
+
+    return promise;
+  }
+
+  dispatchRequest(config: IFetcherConfig) {
     return new Promise((resolve, reject) => {
       const url = normailzePath(this.baseURL, config.url);
 
@@ -64,10 +89,7 @@ class Fetcher {
       // TODO: 中止请求，通过 AbortController/AbortSignal
       fetch(url, options).then(response => {
         // 请求成功
-        if (response.status === 200 && response.statusText === 'OK') {
-          console.log(response);
-          resolve(response.json());
-        }
+        resolve(response);
       });
 
       if (config.timeout && config.timeout > 0) {
@@ -83,16 +105,14 @@ class Fetcher {
   }
 }
 
+// 借鉴一下 axios 的设计思路，文化人的事能说抄吗？
 function createInstance(options: IBaseConfig) {
   const context = new Fetcher(options);
 
   const instance: any = Fetcher.prototype.request.bind(context);
 
-  const proto: any = Fetcher.prototype;
-  for (const key in proto) {
-    instance[key] =
-      typeof proto[key] === 'function' ? proto[key].bind(context) : proto[key];
-  }
+  extend(instance, Fetcher.prototype, context);
+  extend(instance, context);
 
   return instance;
 }
